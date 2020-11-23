@@ -1,0 +1,10 @@
+version: '3'
+services:
+  server:
+    build: .
+    ports:
+      - 3000:12345
+    volumes:
+      - ".:/var/local/project"
+    container_name: tcp-server
+    command: bash -c "cd /var/local/project && go run cmd/main.go"
