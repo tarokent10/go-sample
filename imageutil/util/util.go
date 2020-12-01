@@ -17,7 +17,7 @@ var (
 	gifconv  converter = &gifConverter{}
 )
 
-func Jpeg2png(filepath string) error {
+func Jpeg2Png(filepath string) error {
 	newpath := replaceExt(filepath, "jpeg", "png")
 	i, jerr := decode(jpegconv, filepath)
 	if jerr != nil {
@@ -31,7 +31,48 @@ func Jpeg2png(filepath string) error {
 	}
 	return nil
 }
-
+func Jpeg2Gif(filepath string) error {
+	newpath := replaceExt(filepath, "jpeg", "gif")
+	i, jerr := decode(jpegconv, filepath)
+	if jerr != nil {
+		return jerr
+	}
+	if perr := encode(gifconv, i, newpath); perr != nil {
+		return perr
+	}
+	if rerr := os.Remove(filepath); rerr != nil {
+		return rerr
+	}
+	return nil
+}
+func Png2Jpeg(filepath string) error {
+	newpath := replaceExt(filepath, "png", "jpeg")
+	i, jerr := decode(pngconv, filepath)
+	if jerr != nil {
+		return jerr
+	}
+	if perr := encode(jpegconv, i, newpath); perr != nil {
+		return perr
+	}
+	if rerr := os.Remove(filepath); rerr != nil {
+		return rerr
+	}
+	return nil
+}
+func Png2Gif(filepath string) error {
+	newpath := replaceExt(filepath, "png", "gif")
+	i, jerr := decode(pngconv, filepath)
+	if jerr != nil {
+		return jerr
+	}
+	if perr := encode(gifconv, i, newpath); perr != nil {
+		return perr
+	}
+	if rerr := os.Remove(filepath); rerr != nil {
+		return rerr
+	}
+	return nil
+}
 func decode(c converter, path string) (image.Image, error) {
 	f, openErr := os.Open(path)
 	if openErr != nil {
