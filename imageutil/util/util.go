@@ -18,7 +18,7 @@ var (
 )
 
 func Jpeg2Png(filepath string) error {
-	newpath := replaceExt(filepath, "jpeg", "png")
+	newpath := replaceExt(filepath, ".jpeg", ".png")
 	i, jerr := decode(jpegconv, filepath)
 	if jerr != nil {
 		return jerr
@@ -32,7 +32,7 @@ func Jpeg2Png(filepath string) error {
 	return nil
 }
 func Jpeg2Gif(filepath string) error {
-	newpath := replaceExt(filepath, "jpeg", "gif")
+	newpath := replaceExt(filepath, ".jpeg", ".gif")
 	i, jerr := decode(jpegconv, filepath)
 	if jerr != nil {
 		return jerr
@@ -46,7 +46,7 @@ func Jpeg2Gif(filepath string) error {
 	return nil
 }
 func Png2Jpeg(filepath string) error {
-	newpath := replaceExt(filepath, "png", "jpeg")
+	newpath := replaceExt(filepath, ".png", ".jpeg")
 	i, jerr := decode(pngconv, filepath)
 	if jerr != nil {
 		return jerr
@@ -60,7 +60,7 @@ func Png2Jpeg(filepath string) error {
 	return nil
 }
 func Png2Gif(filepath string) error {
-	newpath := replaceExt(filepath, "png", "gif")
+	newpath := replaceExt(filepath, ".png", ".gif")
 	i, jerr := decode(pngconv, filepath)
 	if jerr != nil {
 		return jerr
@@ -83,7 +83,7 @@ func decode(c converter, path string) (image.Image, error) {
 			log.Fatal(err.Error())
 		}
 	}()
-	img, encErr := jpegconv.Decode(f)
+	img, encErr := c.Decode(f)
 	if encErr != nil {
 		return nil, encErr
 	}
@@ -102,7 +102,7 @@ func encode(c converter, i image.Image, path string) error {
 }
 func replaceExt(filePath, from, to string) string {
 	ext := filepath.Ext(filePath)
-	if len(from) > 0 && ext != from {
+	if len(from) <= 0 && ext != from {
 		return filePath
 	}
 	return filePath[:len(filePath)-len(ext)] + to
