@@ -1,0 +1,14 @@
+version: "3"
+services:
+  db:
+      image: mysql:5.7
+      container_name: mysql
+      command: mysqld
+      ports:
+        - "3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: sampledb
+        MYSQL_USER: user
+        MYSQL_PASSWORD: user
+        TZ: 'Asia/Tokyo'
